@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+
+  .steps {
+    width: 280px;
+  }
+
+  .form-content {
+    flex: 1;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+}

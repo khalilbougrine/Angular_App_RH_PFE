@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="steps">
+    <app-step-card
+      *ngFor="let step of steps; let i = index"
+      [label]="step.label"
+      [icon]="step.icon"
+      [selected]="i === selectedStepIndex"
+      (click)="selectStep(i)">
+    </app-step-card>
+  </div>
+
+  <div class="form-content">
+    <app-form-personal-info *ngIf="selectedStepIndex === 0"></app-form-personal-info>
+    <app-form-education *ngIf="selectedStepIndex === 1"></app-form-education>
+    <app-form-experience *ngIf="selectedStepIndex === 2"></app-form-experience>
+    <app-form-contact *ngIf="selectedStepIndex === 3"></app-form-contact>
+    <app-form-certification *ngIf="selectedStepIndex === 4"></app-form-certification>
+  </div>
+</div>
