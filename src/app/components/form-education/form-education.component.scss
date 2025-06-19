@@ -1,0 +1,11 @@
+@import '../form-personal-info/form-personal-info.component.scss'; // réutilise le style
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+
+  label {
+    font-weight: normal;
+  }
+}

@@ -2,11 +2,17 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-form-personal-info',
-  imports: [],
-  standalone: true,
   templateUrl: './form-personal-info.component.html',
-  styleUrl: './form-personal-info.component.scss'
+  styleUrls: ['./form-personal-info.component.scss'],
+  standalone: true
 })
 export class FormPersonalInfoComponent {
-
+  personalInfo = {
+    nom: '',
+    prenom: '',
+    profil: ' ',
+    adresse: '',
+    ville: '',
+    codePostal: ''
+  };
 }

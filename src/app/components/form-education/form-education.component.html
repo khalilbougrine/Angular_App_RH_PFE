@@ -1,1 +1,33 @@
-<p>form-education works!</p>
+<div class="header">
+  <h3>Education</h3>
+  <a href="#" class="edit">Edit Info</a>
+</div>
+
+<div class="grid">
+  <div class="form-group">
+    <label>Nom de l'établissement</label>
+    <input type="text" [value]="education.etablissement" readonly />
+  </div>
+  <div class="form-group">
+    <label>Filiere</label>
+    <input type="text" [value]="education.filiere" readonly />
+  </div>
+  <div class="form-group">
+    <label>Pays</label>
+    <input type="text" [value]="education.pays" readonly />
+  </div>
+</div>
+
+<div class="grid">
+  <div class="form-group">
+    <label>Début</label>
+    <input type="text" [value]="education.debut" readonly />
+  </div>
+  <div class="form-group">
+    <label>Fin</label>
+    <input type="text" [value]="education.fin" [readonly]="education.actuel" />
+  </div>
+  <div class="form-group checkbox-group">
+    <label><input type="checkbox" [checked]="education.actuel" disabled /> J’étudie actuellement ici</label>
+  </div>
+</div>

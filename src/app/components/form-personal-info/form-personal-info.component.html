@@ -1,1 +1,31 @@
-<p>form-personal-info works!</p>
+<div class="header">
+  <h3>Information Personnelle</h3>
+  <a href="#" class="edit">Edit Info</a>
+</div>
+
+<div class="grid">
+  <div class="form-group">
+    <label>Nom</label>
+    <input type="text" [value]="personalInfo.nom" readonly />
+  </div>
+  <div class="form-group">
+    <label>Prénom</label>
+    <input type="text" [value]="personalInfo.prenom" readonly />
+  </div>
+  <div class="form-group">
+    <label>Profil</label>
+    <input type="text" [value]="personalInfo.profil" readonly />
+  </div>
+  <div class="form-group">
+    <label>Adresse</label>
+    <input type="text" [value]="personalInfo.adresse" readonly />
+  </div>
+  <div class="form-group">
+    <label>Ville</label>
+    <input type="text" [value]="personalInfo.ville" readonly />
+  </div>
+  <div class="form-group">
+    <label>Code postal</label>
+    <input type="text" [value]="personalInfo.codePostal" readonly />
+  </div>
+</div>
