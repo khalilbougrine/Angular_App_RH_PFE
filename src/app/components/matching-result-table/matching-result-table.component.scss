@@ -1,0 +1,72 @@
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+
+  thead {
+    background-color: #2d2368;
+    color: white;
+  }
+
+  th, td {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #d9d9d9;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+
+  .action-button {
+    background-color: #2d2368;
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+.pagination-container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    font-weight: 500;
+  }
+
+  button {
+    border: none;
+    border-radius: 999px;
+    padding: 4px 12px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: transparent;
+    color: #241f52;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &.active {
+      background-color: #241f52;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
