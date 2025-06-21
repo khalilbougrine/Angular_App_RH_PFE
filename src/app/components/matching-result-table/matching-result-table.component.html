@@ -12,7 +12,8 @@
       <td>{{ row.nom }}</td>
       <td>{{ row.score }}</td>
       <td><button class="action-button">afficher</button></td>
-      <td><button class="action-button">afficher</button></td>
+      <td><button class="action-button" (click)="showCandidat.emit()">afficher</button>
+</td>
     </tr>
   </tbody>
 </table>

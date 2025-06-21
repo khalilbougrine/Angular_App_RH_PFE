@@ -10,6 +10,9 @@ export const routes: Routes = [
   { path: 'fiche-poste', component: FichePosteListComponent },
    { path: 'test-upload', component: TestUploadComponent },
    { path: 'multi-form', component: MultiStepFormComponent },
-   { path: 'test-matching', component: TestMatchingComponent }
+   { path: 'test-matching', component: TestMatchingComponent },
+   { path: 'cv-list', component: CvListComponent },
+{ path: 'login', component: CvListComponent } // temporairement rediriger vers les CVs
 
+   
 ];

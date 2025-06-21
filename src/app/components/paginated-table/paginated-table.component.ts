@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomButtonComponent } from "../custom-button/custom-button.component";
 
@@ -48,4 +48,6 @@ export class PaginatedTableComponent implements OnInit {
   get totalPages(): number {
     return Math.ceil(this.data.length / this.itemsPerPage);
   }
+  @Output() showCandidat = new EventEmitter<void>();
+
 }

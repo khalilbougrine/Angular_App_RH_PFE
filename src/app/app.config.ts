@@ -12,8 +12,4 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations()
   ]
-};
-
-bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes), provideAnimations()]
-});
+}

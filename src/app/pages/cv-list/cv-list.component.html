@@ -1,1 +1,15 @@
-<app-paginated-table [data]="cvList"></app-paginated-table>
+
+
+<div style="padding: 30px">
+  <app-custom-button label="Télécharger CVs" (click)="showUploadModal = true"></app-custom-button>
+
+  <app-upload-modal *ngIf="showUploadModal" (close)="showUploadModal = false"></app-upload-modal>
+
+<app-paginated-table
+  *ngIf="!showMultiForm"
+  [data]="cvList"
+  (showCandidat)="showMultiForm = true">
+</app-paginated-table>
+
+<app-multi-step-form *ngIf="showMultiForm"></app-multi-step-form>
+</div>

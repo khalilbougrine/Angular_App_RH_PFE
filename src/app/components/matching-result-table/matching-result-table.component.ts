@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -42,5 +42,6 @@ nextPage() {
 previousPage() {
   if (this.currentPage > 0) this.currentPage--;
 }
+@Output() showCandidat = new EventEmitter<void>();
 
 }

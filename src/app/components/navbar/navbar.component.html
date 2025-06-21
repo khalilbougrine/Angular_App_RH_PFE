@@ -1,12 +1,11 @@
 <nav class="navbar">
   <div class="logo">
     <img src="assets/logo.png" alt="Omnishore Logo">
-
   </div>
-  <ul class="nav-links">
-    <li><a routerLink="/cv-list" routerLinkActive="active">Les CVs</a></li>
-    <a routerLink="/fiche-poste" routerLinkActive="active">fiche de poste</a>
+  <div class="nav-links">
+  <button class="nav-link" (click)="goTo('/cv-list')">Les CVs</button>
+  <button class="nav-link" (click)="goTo('/fiche-poste')">Fiche de poste</button>
+  <button class="nav-link" (click)="goTo('/login')">Se déconnecter</button>
+</div>
 
-    <li><a href="#">Se déconnecter</a></li>
-  </ul>
 </nav>
