@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomButtonComponent } from "../custom-button/custom-button.component";
 
@@ -9,38 +9,44 @@ import { CustomButtonComponent } from "../custom-button/custom-button.component"
   imports: [CommonModule, CustomButtonComponent],
   styleUrls: ['./paginated-table.component.scss']
 })
-export class PaginatedTableComponent implements OnInit {
+export class PaginatedTableComponent implements OnInit, OnChanges {
   @Input() data: any[] = [];
-  @Input() itemsPerPage: number = 3;
+  @Input() itemsPerPage: number = 5;
+
+  @Output() showCandidat = new EventEmitter<void>();
 
   currentPage: number = 0;
   paginatedData: any[] = [];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.updatePagination();
   }
 
-  updatePagination() {
+  ngOnChanges(): void {
+    this.updatePagination();
+  }
+
+  updatePagination(): void {
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     this.paginatedData = this.data.slice(start, end);
   }
 
-  nextPage() {
+  nextPage(): void {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage++;
       this.updatePagination();
     }
   }
 
-  previousPage() {
+  previousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.updatePagination();
     }
   }
 
-  goToPage(page: number) {
+  goToPage(page: number): void {
     this.currentPage = page;
     this.updatePagination();
   }
@@ -48,6 +54,4 @@ export class PaginatedTableComponent implements OnInit {
   get totalPages(): number {
     return Math.ceil(this.data.length / this.itemsPerPage);
   }
-  @Output() showCandidat = new EventEmitter<void>();
-
 }

@@ -2,7 +2,7 @@
 
 <div style="padding: 30px">
   <app-custom-button label="Télécharger CVs" (click)="showUploadModal = true"></app-custom-button>
-
+  <input type="file" #fileInput hidden (change)="onFileSelected($event)" multiple>
   <app-upload-modal *ngIf="showUploadModal" (close)="showUploadModal = false"></app-upload-modal>
 
 <app-paginated-table
