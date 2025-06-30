@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -10,6 +10,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   imports: [CommonModule, HttpClientModule]
 })
 export class UploadModalComponent {
+  @Input() mode: 'cv' | 'fiche' = 'cv'; // 🔄 dynamique : CV ou fiche
   @Output() close = new EventEmitter<void>();
 
   uploadedFiles: File[] = [];
@@ -31,41 +32,41 @@ export class UploadModalComponent {
     this.close.emit();
   }
 
-uploadFiles() {
-  console.log("📤 Méthode uploadFiles appelée");
+  uploadFiles() {
+    console.log("📤 Méthode uploadFiles appelée");
 
-  if (this.uploadedFiles.length === 0) return;
+    if (this.uploadedFiles.length === 0) return;
 
-  let completed = 0;
+    let completed = 0;
+    const storageKey = this.mode === 'fiche' ? 'fichePostes' : 'cvList';
 
-  this.uploadedFiles.forEach(file => {
-    const formData = new FormData();
-    formData.append('file', file);
+    this.uploadedFiles.forEach(file => {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    this.http.post('http://localhost:8080/api/upload', formData, { responseType: 'text' }).subscribe({
-      next: res => {
-        console.log(`✅ ${file.name} envoyé avec succès`);
+      this.http.post('http://localhost:8080/api/upload', formData, { responseType: 'text' }).subscribe({
+        next: res => {
+          console.log(`✅ ${file.name} envoyé avec succès`);
 
-        const fileRecord = {
-          date: new Date().toISOString().split('T')[0],
-          nom: file.name,
-          type: file.type
-        };
+          const fileRecord = {
+            date: new Date().toISOString().split('T')[0],
+            nom: file.name,
+            type: file.type || 'inconnu'
+          };
 
-        const existing = JSON.parse(localStorage.getItem('cvList') || '[]');
-        existing.push(fileRecord);
-        localStorage.setItem('cvList', JSON.stringify(existing));
+          const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+          existing.push(fileRecord);
+          localStorage.setItem(storageKey, JSON.stringify(existing));
 
-        completed++;
-        if (completed === this.uploadedFiles.length) {
-          window.location.reload(); // ✅ maintenant c’est sûr que tout est prêt
+          completed++;
+          if (completed === this.uploadedFiles.length) {
+            window.location.reload(); // 🔄 refresh pour recharger les données dynamiques
+          }
+        },
+        error: err => {
+          console.error(`❌ Erreur en envoyant ${file.name}`, err);
         }
-      },
-      error: err => {
-        console.error(`❌ Erreur en envoyant ${file.name}`, err);
-      }
+      });
     });
-  });
-}
-
+  }
 }
