@@ -8,15 +8,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of paginatedData">
-      <td>{{ row.date }}</td>
-      <td><a href="{{ row.link }}" target="_blank">{{ row.nom }}</a></td>
-      <td>{{ row.type }}</td>
-      <td>
-<button class="action-button" (click)="showCandidat.emit()">Afficher fichier candidat</button>
-        
-      </td>
-    </tr>
+ <tr *ngFor="let row of paginatedData">
+  <td>{{ row.date | date:'short' }}</td>
+  <td><a href="{{ row.link }}" target="_blank">{{ row.nom }}</a></td>
+  <td>{{ row.type }}</td>
+  <td>
+    <button class="action-button" (click)="showCandidat.emit()">
+      {{ row.candidat || 'Voir fiche' }}
+    </button>
+  </td>
+</tr>
+
   </tbody>
 </table>
 
