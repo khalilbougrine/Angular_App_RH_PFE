@@ -1,27 +1,7 @@
 <div class="overlay">
   <div class="modal">
     <h2>Télécharger</h2>
-<div class="upload-preview" *ngIf="uploadedFiles.length > 0">
-  <div class="file-preview" *ngFor="let file of uploadedFiles; let i = index">
-    <input [value]="file.name" readonly />
-    <button (click)="removeFile(i)">🗑</button>
-  </div>
-</div>
 
-    <div class="drop-zone">
-  <div class="icon">
-    <!-- Icône SVG nuage upload -->
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#241f52" viewBox="0 0 24 24">
-      <path d="M12 2a6 6 0 0 1 5.996 5.775L18 8l.002.15a4.5 4.5 0 0 1 .326 8.973L18 17h-4v-4h1.793l-3.147-3.146a.5.5 0 0 0-.638-.057l-.07.057L8.793 13H10v4H6a4.5 4.5 0 0 1-.15-8.992L6 8l.004-.225A6 6 0 0 1 12 2z"/>
-    </svg>
-  </div>
-
-  <p>Drag & drop fichiers ou <label for="fileInput">Naviguer</label></p>
-  <p>Formats supportés : JPEG, PNG, PDF, Word</p>
-  <input type="file" id="fileInput" multiple (change)="onFileSelected($event)" hidden />
-</div>
-
-    <h4>Téléchargement</h4>
     <div class="upload-preview" *ngIf="uploadedFiles.length > 0">
       <div class="file-preview" *ngFor="let file of uploadedFiles; let i = index">
         <input [value]="file.name" readonly />
@@ -29,7 +9,18 @@
       </div>
     </div>
 
-    <button class="submit-btn" (click)="uploadFiles()">TÉLÉCHARGER DES FICHIERS</button>
+    <div class="drop-zone">
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#241f52" viewBox="0 0 24 24">
+          <path d="M12 2a6 6 0 0 1 5.996 5.775L18 8l.002.15a4.5 4.5 0 0 1 .326 8.973L18 17h-4v-4h1.793l-3.147-3.146a.5.5 0 0 0-.638-.057l-.07.057L8.793 13H10v4H6a4.5 4.5 0 0 1-.15-8.992L6 8l.004-.225A6 6 0 0 1 12 2z"/>
+        </svg>
+      </div>
 
+      <p>Drag & drop fichiers ou <label for="fileInput">Naviguer</label></p>
+      <p>Formats supportés : JPEG, PNG, PDF, Word</p>
+      <input type="file" id="fileInput" multiple (change)="onFileSelected($event)" hidden />
+    </div>
+
+    <button class="submit-btn" (click)="uploadFiles()">TÉLÉCHARGER DES FICHIERS</button>
   </div>
 </div>

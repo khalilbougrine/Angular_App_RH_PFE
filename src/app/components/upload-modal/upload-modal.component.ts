@@ -10,8 +10,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   imports: [CommonModule, HttpClientModule]
 })
 export class UploadModalComponent {
-  @Input() mode: 'cv' | 'fiche' = 'cv'; // 🔄 dynamique : CV ou fiche
+  @Input() mode: 'cv' | 'fiche' = 'cv';
   @Output() close = new EventEmitter<void>();
+  @Output() filesUploaded = new EventEmitter<void>();
 
   uploadedFiles: File[] = [];
 
@@ -33,38 +34,26 @@ export class UploadModalComponent {
   }
 
   uploadFiles() {
-    console.log("📤 Méthode uploadFiles appelée");
-
     if (this.uploadedFiles.length === 0) return;
 
     let completed = 0;
-    const storageKey = this.mode === 'fiche' ? 'fichePostes' : 'cvList';
 
     this.uploadedFiles.forEach(file => {
       const formData = new FormData();
       formData.append('file', file);
 
-      this.http.post('http://localhost:8080/api/upload', formData, { responseType: 'text' }).subscribe({
-        next: res => {
-          console.log(`✅ ${file.name} envoyé avec succès`);
-
-          const fileRecord = {
-            date: new Date().toISOString().split('T')[0],
-            nom: file.name,
-            type: file.type || 'inconnu'
-          };
-
-          const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
-          existing.push(fileRecord);
-          localStorage.setItem(storageKey, JSON.stringify(existing));
-
+      this.http.post('http://localhost:8080/api/fiches/parse-and-save', formData, { responseType: 'text' })
+.subscribe({
+        next: () => {
+          console.log(`✅ ${file.name} traité et sauvegardé`);
           completed++;
           if (completed === this.uploadedFiles.length) {
-            window.location.reload(); // 🔄 refresh pour recharger les données dynamiques
+            this.filesUploaded.emit(); // 🔄 détection upload fini
+            this.closeModal();
           }
         },
         error: err => {
-          console.error(`❌ Erreur en envoyant ${file.name}`, err);
+          console.error(`❌ Erreur traitement de ${file.name}`, err);
         }
       });
     });

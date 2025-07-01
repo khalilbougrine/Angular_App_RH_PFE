@@ -9,12 +9,12 @@
   </thead>
   <tbody>
  <tr *ngFor="let row of paginatedData">
-  <td>{{ row.date | date:'short' }}</td>
+  <td>{{ row.date | date:'dd/MM/yyyy HH:mm' }}</td>
   <td><a href="{{ row.link }}" target="_blank">{{ row.nom }}</a></td>
   <td>{{ row.type }}</td>
   <td>
     <button class="action-button" (click)="showCandidat.emit()">
-      {{ row.candidat || 'Voir fiche' }}
+      {{ 'Voir fiche' }}
     </button>
   </td>
 </tr>

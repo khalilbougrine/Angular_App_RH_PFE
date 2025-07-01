@@ -3,7 +3,8 @@
 <div style="padding: 30px">
   <app-custom-button label="Télécharger CVs" (click)="showUploadModal = true"></app-custom-button>
   
-  <app-upload-modal *ngIf="showUploadModal" (close)="showUploadModal = false"></app-upload-modal>
+<app-upload-modal *ngIf="showUploadModal" mode="cv" (close)="showUploadModal = false"></app-upload-modal>
+
 
 <app-paginated-table
   *ngIf="!showMultiForm"
