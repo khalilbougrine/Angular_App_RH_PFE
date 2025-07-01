@@ -37,18 +37,21 @@ export class UploadModalComponent {
     if (this.uploadedFiles.length === 0) return;
 
     let completed = 0;
+     const endpoint = this.mode === 'fiche'
+  ? 'http://localhost:8080/api/postes/upload' // ✅ la bonne URL
+  : 'http://localhost:8080/api/fiches/parse-and-save';
+
 
     this.uploadedFiles.forEach(file => {
       const formData = new FormData();
       formData.append('file', file);
 
-      this.http.post('http://localhost:8080/api/fiches/parse-and-save', formData, { responseType: 'text' })
-.subscribe({
+      this.http.post(endpoint, formData, { responseType: 'text' }).subscribe({
         next: () => {
           console.log(`✅ ${file.name} traité et sauvegardé`);
           completed++;
           if (completed === this.uploadedFiles.length) {
-            this.filesUploaded.emit(); // 🔄 détection upload fini
+            this.filesUploaded.emit();
             this.closeModal();
           }
         },

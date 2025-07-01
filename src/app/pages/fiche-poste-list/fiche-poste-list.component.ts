@@ -7,6 +7,7 @@ import { PromptInputComponent } from "../../components/prompt-input/prompt-input
 import { MatchingResultTableComponent } from "../../components/matching-result-table/matching-result-table.component";
 import { PaginatedTableComponent } from "../../components/paginated-table/paginated-table.component";
 import { MultiStepFormComponent } from "../multi-step-form/multi-step-form.component";
+import { FichePosteService } from '../../services/fiche-poste.service'; // Import the service
 
 @Component({
   selector: 'app-fiche-poste-list',
@@ -35,15 +36,23 @@ export class FichePosteListComponent implements OnInit {
   currentPage = 0;
   itemsPerPage = 3;
 
+  constructor(private fichePosteService: FichePosteService) {} // Inject the service
+
   ngOnInit(): void {
     this.loadFiches();
   }
 
-loadFiches(): void {
-  this.fichePostes = JSON.parse(localStorage.getItem('fichePostes') || '[]');
-  console.log("📂 fichePostes chargées :", this.fichePostes);
-}
-
+  loadFiches(): void {
+    this.fichePosteService.getAllFiches().subscribe({
+      next: (data) => {
+        this.fichePostes = data;
+        console.log("📂 Fiches de poste chargées depuis l'API :", data);
+      },
+      error: (err) => {
+        console.error("❌ Erreur chargement fiches :", err);
+      }
+    });
+  }
 
   get paginatedPostes() {
     const start = this.currentPage * this.itemsPerPage;

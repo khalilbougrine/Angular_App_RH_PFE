@@ -19,9 +19,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let fiche of fichePostes">
-      <td>{{ fiche.date }}</td>
-<td><a href="#">{{ fiche.nom }}</a></td>
-<td>{{ fiche.type }}</td>
+ <td>{{ fiche.createdAt | date:'dd/MM/yyyy à HH:mm' }}</td>
+<td><a href="#">{{ fiche.nomFichier }}</a></td>
+<td>{{ fiche.typeFichier }}</td>
+
 
       <td>
         <button class="action-button" (click)="showMatching = true">
