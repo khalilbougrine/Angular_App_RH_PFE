@@ -23,29 +23,54 @@ import { FormCertificationComponent } from '../../components/form-certification/
   templateUrl: './multi-step-form.component.html',
   styleUrls: ['./multi-step-form.component.scss']
 })
-export class MultiStepFormComponent  implements OnChanges {
-    @Input() fiche: any;
+export class MultiStepFormComponent implements OnChanges {
+  @Input() fiche: any;
 
+  personalInfo: any = {
+    name: '',
+    profil: '',
+    adresse: '',
+    birthdate: ''
+  };
 
-personalInfo: any = {
-  name: '',
-  profil: '',
-  adresse: '',
-  birthdate: ''
-};
+  educationData: any = {
+    etablissement: '',
+    filiere: '',
+    pays: '',
+    debut: '',
+    fin: '',
+    actuel: false
+  };
 
-     ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['fiche'] && this.fiche) {
       console.log("📥 Fiche IA reçue :", this.fiche);
-      // Ici tu pourras remplir les champs dans les sous-composants (à l'étape suivante)
+
       this.personalInfo = {
-      name: this.fiche.name?.split(' ')[0] || '',
-      profil: this.fiche.profil || '',
-      adresse: this.fiche.address || '',
-      birthdate: this.fiche.birthdate || ''
-    };
+        name: this.fiche.name?.split(' ')[0] || '',
+        profil: this.fiche.profil || '',
+        adresse: this.fiche.address || '',
+        birthdate: this.fiche.birthdate || ''
+      };
+
+      try {
+        const educationArray = JSON.parse(this.fiche.education || '[]');
+        const first = educationArray[0] || '';
+
+        this.educationData = {
+          etablissement: first || 'Établissement inconnu',
+          filiere: educationArray[1] || '',
+          pays: 'Maroc',
+          debut: '09/20',
+          fin: '06/25',
+          actuel: true
+        };
+      } catch (e) {
+        console.error('❌ Erreur parsing education :', e);
+      }
     }
   }
+
   steps = [
     { label: 'Information Personnelle', icon: '👤' },
     { label: 'Etude', icon: '🎓' },
@@ -59,6 +84,4 @@ personalInfo: any = {
   selectStep(index: number) {
     this.selectedStepIndex = index;
   }
-
-  
 }
