@@ -15,6 +15,7 @@ export class UploadModalComponent {
   @Output() filesUploaded = new EventEmitter<void>();
 
   uploadedFiles: File[] = [];
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -33,32 +34,41 @@ export class UploadModalComponent {
     this.close.emit();
   }
 
-  uploadFiles() {
-    if (this.uploadedFiles.length === 0) return;
+ uploadFiles() {
+  if (this.uploadedFiles.length === 0) return;
 
-    let completed = 0;
-     const endpoint = this.mode === 'fiche'
-  ? 'http://localhost:8080/api/postes/upload' // ✅ la bonne URL
-  : 'http://localhost:8080/api/fiches/parse-and-save';
+  this.isLoading = true;
+  let completed = 0;
 
+  const endpoint = this.mode === 'fiche'
+    ? 'http://localhost:8080/api/postes/upload'
+    : 'http://localhost:8080/api/fiches/parse-and-save';
 
-    this.uploadedFiles.forEach(file => {
-      const formData = new FormData();
-      formData.append('file', file);
+  this.uploadedFiles.forEach(file => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-      this.http.post(endpoint, formData, { responseType: 'text' }).subscribe({
-        next: () => {
-          console.log(`✅ ${file.name} traité et sauvegardé`);
-          completed++;
-          if (completed === this.uploadedFiles.length) {
-            this.filesUploaded.emit();
-            this.closeModal();
-          }
-        },
-        error: err => {
-          console.error(`❌ Erreur traitement de ${file.name}`, err);
+    this.http.post(endpoint, formData, { responseType: 'text' }).subscribe({
+      next: () => {
+        console.log(`✅ ${file.name} traité et sauvegardé`);
+        completed++;
+        if (completed === this.uploadedFiles.length) {
+          this.isLoading = false;
+          this.filesUploaded.emit();
+          this.closeModal();
         }
-      });
+      },
+      error: err => {
+        console.error(`❌ Erreur traitement de ${file.name}`, err);
+        completed++;
+        if (completed === this.uploadedFiles.length) {
+          this.isLoading = false;
+          this.filesUploaded.emit();
+          this.closeModal();
+        }
+      }
     });
-  }
+  });
+}
+
 }
