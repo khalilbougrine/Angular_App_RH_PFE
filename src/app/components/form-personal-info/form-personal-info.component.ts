@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-form-personal-info',
@@ -7,12 +7,5 @@ import { Component } from '@angular/core';
   standalone: true
 })
 export class FormPersonalInfoComponent {
-  personalInfo = {
-    nom: '',
-    prenom: '',
-    profil: ' ',
-    adresse: '',
-    ville: '',
-    codePostal: ''
-  };
+  @Input() data: any;  // contient name, profil, adresse, birthdate
 }

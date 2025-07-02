@@ -13,7 +13,7 @@
   <td><a href="{{ row.link }}" target="_blank">{{ row.nom }}</a></td>
   <td>{{ row.type }}</td>
   <td>
-    <button class="action-button" (click)="showCandidat.emit()">
+    <button class="action-button" (click)="showCandidat.emit(row.id)">
       {{ 'Voir fiche' }}
     </button>
   </td>

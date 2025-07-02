@@ -6,26 +6,18 @@
 <div class="grid">
   <div class="form-group">
     <label>Nom</label>
-    <input type="text" [value]="personalInfo.nom" readonly />
-  </div>
-  <div class="form-group">
-    <label>Prénom</label>
-    <input type="text" [value]="personalInfo.prenom" readonly />
+    <input type="text" [value]="data?.name" readonly />
   </div>
   <div class="form-group">
     <label>Profil</label>
-    <input type="text" [value]="personalInfo.profil" readonly />
+    <input type="text" [value]="data?.profil" readonly />
   </div>
   <div class="form-group">
     <label>Adresse</label>
-    <input type="text" [value]="personalInfo.adresse" readonly />
+    <input type="text" [value]="data?.adresse" readonly />
   </div>
   <div class="form-group">
-    <label>Ville</label>
-    <input type="text" [value]="personalInfo.ville" readonly />
-  </div>
-  <div class="form-group">
-    <label>Code postal</label>
-    <input type="text" [value]="personalInfo.codePostal" readonly />
+    <label>Date de naissance</label>
+    <input type="text" [value]="data?.birthdate" readonly />
   </div>
 </div>

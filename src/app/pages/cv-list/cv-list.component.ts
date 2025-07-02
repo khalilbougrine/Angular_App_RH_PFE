@@ -6,6 +6,7 @@ import { UploadModalComponent } from "../../components/upload-modal/upload-modal
 import { CustomButtonComponent } from "../../components/custom-button/custom-button.component";
 import { MultiStepFormComponent } from "../multi-step-form/multi-step-form.component";
 import { CvService } from '../../services/cv.service';
+import { FicheCandidatService } from '../../services/fiche-candidat.service';
 
 @Component({
   selector: 'app-cv-list',
@@ -20,34 +21,59 @@ export class CvListComponent implements OnInit {
   cvList: any[] = [];
   currentPage = 0;
   itemsPerPage = 3;
+  selectedFicheData: any = null;
 
-  constructor(private cvService: CvService) {}
+  constructor(
+    private cvService: CvService,
+    private ficheCandidatService: FicheCandidatService
+  ) {}
 
   ngOnInit(): void {
     this.loadUploadedFiles();
   }
 
-loadUploadedFiles(): void {
-  this.cvService.getAllCvs().subscribe({
-    next: (data) => {
-      this.cvList = data.map((cv: any) => {
-        return {
-          date: new Date(cv.createdAt),
-          nom: cv.email?.split("@")[0] + "_cv.jpg", // ou extrait d’un autre champ si tu l’as
-          type: cv.image ? 'Image' : 'PDF converti',
-          candidat: cv.name,
-          link: "#" // ou un lien réel plus tard
-        };
-      });
-      console.log("📂 CVs formatés pour affichage :", this.cvList);
+  loadUploadedFiles(): void {
+    this.cvService.getAllCvs().subscribe({
+      next: (data) => {
+        this.cvList = data.map((cv: any) => {
+          return {
+            id: cv.id,
+            date: new Date(cv.createdAt),
+            nom: cv.email?.split("@")[0] + "_cv.jpg",
+            type: cv.image ? 'Image' : 'PDF converti',
+            candidat: cv.name,
+            link: "#" // ou un lien réel si disponible
+          };
+        });
+        console.log("📂 CVs formatés pour affichage :", this.cvList);
+      },
+      error: (err) => {
+        console.error("❌ Erreur chargement CVs :", err);
+      }
+    });
+  }
+handleVoirFiche(id: number) {
+  this.ficheCandidatService.getFicheById(id).subscribe({
+    next: (fiche) => {
+      this.selectedFicheData = fiche;
+      this.showMultiForm = true;
     },
     error: (err) => {
-      console.error("❌ Erreur chargement CVs :", err);
+      console.error('Erreur récupération fiche IA', err);
     }
   });
 }
 
-
+  voirFiche(id: number) {
+    this.ficheCandidatService.getFicheById(id).subscribe({
+      next: (fiche) => {
+        this.selectedFicheData = fiche;
+      },
+      error: (err) => {
+        console.error('Erreur récupération fiche IA', err);
+      }
+    });
+  }
 
   get paginatedCvs() {
     const start = this.currentPage * this.itemsPerPage;

@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-content">
-    <app-form-personal-info *ngIf="selectedStepIndex === 0"></app-form-personal-info>
+    <app-form-personal-info [data]="personalInfo"></app-form-personal-info>
     <app-form-education *ngIf="selectedStepIndex === 1"></app-form-education>
     <app-form-experience *ngIf="selectedStepIndex === 2"></app-form-experience>
     <app-form-contact *ngIf="selectedStepIndex === 3"></app-form-contact>

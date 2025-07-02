@@ -13,7 +13,8 @@ export class PaginatedTableComponent implements OnInit, OnChanges {
   @Input() data: any[] = [];
   @Input() itemsPerPage: number = 5;
 
-  @Output() showCandidat = new EventEmitter<void>();
+  @Output() showCandidat = new EventEmitter<number>(); // on émet l'id du CV
+
 
   currentPage: number = 0;
   paginatedData: any[] = [];

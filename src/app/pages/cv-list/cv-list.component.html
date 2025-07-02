@@ -9,8 +9,10 @@
 <app-paginated-table
   *ngIf="!showMultiForm"
   [data]="cvList"
-  (showCandidat)="showMultiForm = true">
+  (showCandidat)="voirFiche($event); showMultiForm = true">
 </app-paginated-table>
 
-<app-multi-step-form *ngIf="showMultiForm"></app-multi-step-form>
+
+<app-multi-step-form *ngIf="showMultiForm" [fiche]="selectedFicheData"></app-multi-step-form>
+
 </div>
