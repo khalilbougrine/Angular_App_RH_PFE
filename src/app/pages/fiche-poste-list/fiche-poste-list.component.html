@@ -1,44 +1,65 @@
+<div *ngIf="!showMatching" class="fiche-section">
+<div class="fiche-actions fiche-align-right">
+  <app-custom-button
+    label="Télécharger fiche de poste"
+    (click)="showUploadModal = true">
+  </app-custom-button>
+
+  <app-custom-button
+    label="Prompt"
+    (click)="showPrompt = !showPrompt">
+  </app-custom-button>
+</div>
 
 
-<div *ngIf="!showMatching" style="padding: 30px">
-  <app-custom-button label="Télécharger fiche de poste" (click)="showUploadModal = true"></app-custom-button>
-  <app-custom-button label="Prompt" (click)="showPrompt = !showPrompt"></app-custom-button>
-
-<app-upload-modal *ngIf="showUploadModal" mode="fiche" (close)="showUploadModal = false"></app-upload-modal>
+  <app-upload-modal
+    *ngIf="showUploadModal"
+    mode="fiche"
+    (close)="showUploadModal = false">
+  </app-upload-modal>
 
   <app-prompt-input *ngIf="showPrompt"></app-prompt-input>
 
- <table class="custom-table">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Nom du fichier</th>
-      <th>Type de fichier</th>
-      <th>Matching</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let fiche of fichePostes">
- <td>{{ fiche.createdAt | date:'dd/MM/yyyy à HH:mm' }}</td>
-<td><a href="#">{{ fiche.nomFichier }}</a></td>
-<td>{{ fiche.typeFichier }}</td>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Nom du fichier</th>
+        <th>Type de fichier</th>
+        <th>Matching</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fiche of fichePostes">
 
+        <td>{{ fiche.createdAt | date:'dd/MM/yyyy à HH:mm' }}</td>
+        <td><a href="#">{{ fiche.nomFichier }}</a></td>
+        <td>{{ fiche.typeFichier }}</td>
+        <td>
+          <button class="action-button" (click)="showMatching = true">
+            Afficher liste matching
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      <td>
-        <button class="action-button" (click)="showMatching = true">
-          Afficher liste matching
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+  <!-- ✅ Pagination -->
+  <div class="pagination-container">
+    <div class="pagination-buttons">
+      <button (click)="previousPage()" [disabled]="currentPage === 0">Précédent</button>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Suivant</button>
+    </div>
+    <div class="page-info">
+      Page {{ currentPage + 1 }} / {{ totalPages }}
+    </div>
+  </div>
 </div>
 
-<!-- 🔽 S'affiche uniquement après clic -->
+<!-- Résultat Matching -->
 <app-matching-result-table
   *ngIf="showMatching && !showMultiForm"
   (showCandidat)="showMultiForm = true">
 </app-matching-result-table>
-<app-multi-step-form *ngIf="showMultiForm"></app-multi-step-form>
 
+<app-multi-step-form *ngIf="showMultiForm"></app-multi-step-form>

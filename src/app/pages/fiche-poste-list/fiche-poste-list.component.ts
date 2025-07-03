@@ -35,6 +35,7 @@ export class FichePosteListComponent implements OnInit {
   fichePostes: any[] = [];
   currentPage = 0;
   itemsPerPage = 3;
+paginatedData: any;
 
   constructor(private fichePosteService: FichePosteService) {} // Inject the service
 
