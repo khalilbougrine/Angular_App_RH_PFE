@@ -20,8 +20,16 @@
       [education]="educationData">
     </app-form-education>
 
-    <app-form-experience *ngIf="selectedStepIndex === 2"></app-form-experience>
-    <app-form-contact *ngIf="selectedStepIndex === 3"></app-form-contact>
-    <app-form-certification *ngIf="selectedStepIndex === 4"></app-form-certification>
+    <app-form-experience
+  *ngIf="selectedStepIndex === 2"
+  [data]="experienceData">
+</app-form-experience>
+
+   <app-form-contact *ngIf="selectedStepIndex === 3" [data]="contactData"></app-form-contact>
+<app-form-certification
+  *ngIf="selectedStepIndex === 4"
+  [data]="certificationData">
+</app-form-certification>
+
   </div>
 </div>

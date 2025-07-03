@@ -1,24 +1,28 @@
 <div class="header">
-  <h3>Diplome/Certification</h3>
+  <h3>Diplôme/Certification</h3>
   <a href="#" class="edit">Edit Info</a>
 </div>
 
-<div class="grid">
-  <div class="form-group">
-    <label>Nom de l'organisation</label>
-    <input type="text" [value]="certifications[0].organisation" readonly />
+<div *ngFor="let certif of data" class="certif-section">
+  <div class="grid">
+    <div class="form-group">
+      <label>Nom de l'organisation</label>
+      <input type="text" [value]="certif.organisation" readonly />
+    </div>
+    <div class="form-group">
+      <label>Nom du diplôme</label>
+      <input type="text" [value]="certif.diplome" readonly />
+    </div>
+    <div class="form-group">
+      <label>Date d'acquisition</label>
+      <input type="text" [value]="certif.date" readonly />
+    </div>
   </div>
-  <div class="form-group">
-    <label>Nom du diplôme</label>
-    <input type="text" [value]="certifications[0].diplome" readonly />
-  </div>
-  <div class="form-group">
-    <label>Date d'acquisition</label>
-    <input type="text" [value]="certifications[0].date" readonly />
-  </div>
-</div>
 
-<div class="form-group-full">
-  <label>Description</label>
-  <textarea readonly>{{ certifications[0].description }}</textarea>
+  <div class="form-group-full">
+    <label>Description</label>
+    <textarea readonly>{{ certif.description }}</textarea>
+  </div>
+
+  <hr />
 </div>

@@ -42,10 +42,27 @@ export class MultiStepFormComponent implements OnChanges {
     actuel: false
   };
 
+  experienceData: string[] = [];
+
+  contactData: any = {
+    email: '',
+    phone: '',
+    pays: '',
+    ville: ''
+  };
+
+  certificationData: {
+    diplome: string;
+    organisation: string;
+    date: string;
+    description: string;
+  }[] = [];
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fiche'] && this.fiche) {
       console.log("📥 Fiche IA reçue :", this.fiche);
 
+      // Information personnelle
       this.personalInfo = {
         name: this.fiche.name?.split(' ')[0] || '',
         profil: this.fiche.profil || '',
@@ -53,22 +70,61 @@ export class MultiStepFormComponent implements OnChanges {
         birthdate: this.fiche.birthdate || ''
       };
 
+      // Études
       try {
         const educationArray = JSON.parse(this.fiche.education || '[]');
-        const first = educationArray[0] || '';
+        const findLine = (label: string) => educationArray.find((e: string) => e.toLowerCase().includes(label)) || '';
 
         this.educationData = {
-          etablissement: first || 'Établissement inconnu',
+          etablissement: educationArray[0] || '',
           filiere: educationArray[1] || '',
-          pays: 'Maroc',
-          debut: '09/20',
-          fin: '06/25',
-          actuel: true
+          pays: findLine('pays')?.split(':')[1]?.trim() || '',
+          debut: findLine('début')?.split(':')[1]?.trim() || '',
+          fin: findLine('fin')?.split(':')[1]?.trim() || '',
+          actuel: !findLine('fin')
         };
       } catch (e) {
         console.error('❌ Erreur parsing education :', e);
       }
+
+      // Expérience
+      try {
+        this.experienceData = JSON.parse(this.fiche.experience || '[]');
+      } catch (e) {
+        console.warn('❌ Erreur parsing experience :', e);
+        this.experienceData = [];
+      }
+
+      // Coordonnées
+      this.contactData = {
+        email: this.fiche.email || '',
+        phone: this.fiche.phone || '',
+        pays: this.detectPays(this.fiche.address),
+        ville: this.detectVille(this.fiche.address)
+      };
+
+      // Certifications
+      try {
+        const raw = JSON.parse(this.fiche.certifications || '[]');
+        this.certificationData = this.parseCertifications(raw);
+      } catch (e) {
+        console.warn("❌ Erreur parsing certifications", e);
+        this.certificationData = [];
+      }
     }
+  }
+
+  detectPays(address: string): string {
+    if (!address) return '';
+    if (address.toLowerCase().includes('maroc')) return 'Maroc';
+    if (address.toLowerCase().includes('france')) return 'France';
+    return '';
+  }
+
+  detectVille(address: string): string {
+    const villesConnues = ['Rabat', 'Casablanca', 'Paris', 'Marrakech', 'Tanger'];
+    const match = villesConnues.find(v => address?.toLowerCase().includes(v.toLowerCase()));
+    return match || '';
   }
 
   steps = [
@@ -83,5 +139,21 @@ export class MultiStepFormComponent implements OnChanges {
 
   selectStep(index: number) {
     this.selectedStepIndex = index;
+  }
+
+  parseCertifications(certifStrings: string[]): any[] {
+    return certifStrings.map(str => {
+      const get = (label: string) => {
+        const match = str.match(new RegExp(`${label}\\s*:?\\s*([^|\\n]+)`, 'i'));
+        return match ? match[1].trim() : '';
+      };
+
+      return {
+        diplome: get('Nom'),
+        organisation: get('Institution'),
+        date: get('Date'),
+        description: get('Description') || str
+      };
+    });
   }
 }

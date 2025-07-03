@@ -1,16 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-form-contact',
-  standalone: true,
   templateUrl: './form-contact.component.html',
-  styleUrls: ['./form-contact.component.scss']
+  styleUrls: ['./form-contact.component.scss'],
+  standalone: true
 })
 export class FormContactComponent {
-  contact = {
-    email: 'john.doe@example.com',
-    numero: '+212 655 431 556',
-    pays: 'Maroc',
-    ville: 'Rabat'
-  };
+  @Input() data: any; // { email, phone, pays, ville }
 }
