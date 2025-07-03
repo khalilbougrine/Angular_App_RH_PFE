@@ -23,6 +23,9 @@
     <label>Description</label>
     <textarea readonly>{{ certif.description }}</textarea>
   </div>
+<div *ngIf="data.length === 0" class="form-group-full">
+  <p style="color: gray; font-style: italic;">Aucune certification trouvée.</p>
+</div>
 
   <hr />
 </div>

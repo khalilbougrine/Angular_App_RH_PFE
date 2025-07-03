@@ -1,18 +1,19 @@
 
 
-<div style="padding: 30px">
-  <app-custom-button label="Télécharger CVs" (click)="showUploadModal = true"></app-custom-button>
-  
-<app-upload-modal *ngIf="showUploadModal" mode="cv" (close)="showUploadModal = false"></app-upload-modal>
+  <app-upload-modal *ngIf="showUploadModal" mode="cv" (close)="showUploadModal = false"></app-upload-modal>
 
+  <div class="table-section">
+  <div class="cv-actions">
+    <app-custom-button
+      label="Télécharger CVs"
+      (click)="showUploadModal = true">
+    </app-custom-button>
+  </div>
+  <app-paginated-table
+    *ngIf="!showMultiForm"
+    [data]="cvList"
+    (showCandidat)="voirFiche($event); showMultiForm = true">
+  </app-paginated-table>
 
-<app-paginated-table
-  *ngIf="!showMultiForm"
-  [data]="cvList"
-  (showCandidat)="voirFiche($event); showMultiForm = true">
-</app-paginated-table>
-
-
-<app-multi-step-form *ngIf="showMultiForm" [fiche]="selectedFicheData"></app-multi-step-form>
-
+  <app-multi-step-form *ngIf="showMultiForm" [fiche]="selectedFicheData"></app-multi-step-form>
 </div>

@@ -15,4 +15,9 @@ export class FormCertificationComponent {
     date: string;
     description: string;
   }[] = [];
+
+  ngOnInit() {
+  console.log("📘 Certifications reçues :", this.data);
+}
+
 }

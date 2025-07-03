@@ -106,7 +106,9 @@ export class MultiStepFormComponent implements OnChanges {
       // Certifications
       try {
         const raw = JSON.parse(this.fiche.certifications || '[]');
-        this.certificationData = this.parseCertifications(raw);
+this.certificationData = this.parseCertifications(raw);
+console.log("✅ Données certification formatées :", this.certificationData);
+        
       } catch (e) {
         console.warn("❌ Erreur parsing certifications", e);
         this.certificationData = [];

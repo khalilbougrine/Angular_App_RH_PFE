@@ -1,57 +1,115 @@
 .custom-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  font-family: 'Segoe UI', sans-serif;
 
   thead {
     background-color: #2d2368;
-    color: white;
+    color: #fff;
+
+    th {
+      padding: 14px;
+      font-weight: 600;
+      font-size: 15px;
+      text-align: center;
+    }
   }
 
-  th, td {
-    padding: 12px;
-    text-align: center;
+  tbody tr {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #eceaf7;
+    }
+
+    td {
+      padding: 12px;
+      font-size: 14px;
+      text-align: center;
+      color: #333;
+    }
   }
 
   tbody tr:nth-child(even) {
-    background-color: #e3e3e3;
+    background-color: #f3f3f3;
   }
 
   tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
+    background-color: #ffffff;
   }
 
   a {
-    color: #3b5bfc;
-    text-decoration: underline;
+    color: #2d2368;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .action-button {
     background-color: #2d2368;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 12px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
     cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #1e184d;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
   }
 }
-
 .pagination-container {
-  margin-top: 16px;
+  margin-top: 24px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
+  font-family: 'Segoe UI', sans-serif;
 
-  button {
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
+  .pagination-buttons {
+    display: flex;
+    gap: 16px;
 
-    &.active {
-      background-color: #2d2368;
-      color: white;
+    button {
+      background-color: #f0f0f0;
+      color: #2d2368;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background-color: #dad4f2;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
     }
+  }
+
+  .page-info {
+    font-weight: 600;
+    color: #2d2368;
+    font-size: 15px;
   }
 }
