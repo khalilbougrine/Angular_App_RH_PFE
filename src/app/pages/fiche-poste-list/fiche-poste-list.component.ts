@@ -7,7 +7,7 @@ import { PromptInputComponent } from "../../components/prompt-input/prompt-input
 import { MatchingResultTableComponent } from "../../components/matching-result-table/matching-result-table.component";
 import { PaginatedTableComponent } from "../../components/paginated-table/paginated-table.component";
 import { MultiStepFormComponent } from "../multi-step-form/multi-step-form.component";
-import { FichePosteService } from '../../services/fiche-poste.service'; // Import the service
+import { FichePosteService } from '../../services/fiche-poste.service';
 
 @Component({
   selector: 'app-fiche-poste-list',
@@ -29,15 +29,13 @@ export class FichePosteListComponent implements OnInit {
   showUploadModal = false;
   showPrompt = false;
   showMatching = false;
-  selectedCandidateId = null;
-  showMultiForm: any;
+  showMultiForm = false;
 
   fichePostes: any[] = [];
   currentPage = 0;
-  itemsPerPage = 3;
-paginatedData: any;
+  itemsPerPage = 20;
 
-  constructor(private fichePosteService: FichePosteService) {} // Inject the service
+  constructor(private fichePosteService: FichePosteService) {}
 
   ngOnInit(): void {
     this.loadFiches();
@@ -61,7 +59,7 @@ paginatedData: any;
   }
 
   get totalPages() {
-    return Math.ceil(this.fichePostes.length / this.itemsPerPage);
+    return Math.max(1, Math.ceil(this.fichePostes.length / this.itemsPerPage));
   }
 
   goToPage(page: number) {
