@@ -12,7 +12,6 @@ import { CustomButtonComponent } from "../custom-button/custom-button.component"
 export class PaginatedTableComponent implements OnInit, OnChanges {
   @Input() data: any[] = [];
   @Input() itemsPerPage: number = 5;
-
   @Output() showCandidat = new EventEmitter<number>(); // on émet l'id du CV
 
 

@@ -11,7 +11,14 @@ import { FicheCandidatService } from '../../services/fiche-candidat.service';
 @Component({
   selector: 'app-cv-list',
   standalone: true,
-  imports: [CommonModule, PaginatedTableComponent, NavbarComponent, UploadModalComponent, CustomButtonComponent, MultiStepFormComponent],
+  imports: [
+    CommonModule,
+    PaginatedTableComponent,
+    NavbarComponent,
+    UploadModalComponent,
+    CustomButtonComponent,
+    MultiStepFormComponent
+  ],
   templateUrl: './cv-list.component.html',
   styleUrls: ['./cv-list.component.scss']
 })
@@ -23,6 +30,7 @@ export class CvListComponent implements OnInit {
   itemsPerPage = 3;
   selectedFicheData: any = null;
 
+ 
   constructor(
     private cvService: CvService,
     private ficheCandidatService: FicheCandidatService
@@ -32,42 +40,43 @@ export class CvListComponent implements OnInit {
     this.loadUploadedFiles();
   }
 
-  loadUploadedFiles(): void {
-    this.cvService.getAllCvs().subscribe({
-      next: (data) => {
-        this.cvList = data.map((cv: any) => {
-          return {
-            id: cv.id,
-            date: new Date(cv.createdAt),
-            nom: cv.email?.split("@")[0] + "_cv.jpg",
-            type: cv.image ? 'Image' : 'PDF converti',
-            candidat: cv.name,
-            link: "#" // ou un lien réel si disponible
-          };
-        });
-        console.log("📂 CVs formatés pour affichage :", this.cvList);
-      },
-      error: (err) => {
-        console.error("❌ Erreur chargement CVs :", err);
-      }
-    });
-  }
-handleVoirFiche(id: number) {
-  this.ficheCandidatService.getFicheById(id).subscribe({
-    next: (fiche) => {
-      this.selectedFicheData = fiche;
-      this.showMultiForm = true;
+loadUploadedFiles(): void {
+  this.cvService.getAllCvs().subscribe({
+    next: (data) => {
+      this.cvList = data.map((cv: any) => {
+        const nomFichier = cv.nomFichier || (cv.email?.split("@")[0] + "_cv.jpg");
+        const urlImage = cv.imageUrl?.includes("http://localhost:8000/cv-image/")
+          ? cv.imageUrl
+          : `http://localhost:8000/cv-image/${nomFichier}`;
+
+        console.log("🖼️ URL de l'image corrigée :", urlImage);
+
+        return {
+          id: cv.id,
+          date: new Date(cv.createdAt),
+          nom: nomFichier,
+          type: cv.typeFichier?.includes("image") ? "Image" : "PDF converti",
+          candidat: cv.name,
+          image_url: urlImage,
+          link: urlImage // pour afficher quand on clique sur le nom
+        };
+      });
+
+      console.log("📂 CVs formatés pour affichage :", this.cvList);
     },
     error: (err) => {
-      console.error('Erreur récupération fiche IA', err);
+      console.error("❌ Erreur chargement CVs :", err);
     }
   });
 }
 
-  voirFiche(id: number) {
+
+
+  voirFiche(id: number): void {
     this.ficheCandidatService.getFicheById(id).subscribe({
       next: (fiche) => {
         this.selectedFicheData = fiche;
+        this.showMultiForm = true;
       },
       error: (err) => {
         console.error('Erreur récupération fiche IA', err);
@@ -75,6 +84,7 @@ handleVoirFiche(id: number) {
     });
   }
 
+  
   get paginatedCvs() {
     const start = this.currentPage * this.itemsPerPage;
     return this.cvList.slice(start, start + this.itemsPerPage);
@@ -84,15 +94,17 @@ handleVoirFiche(id: number) {
     return Math.ceil(this.cvList.length / this.itemsPerPage);
   }
 
-  goToPage(page: number) {
+  goToPage(page: number): void {
     this.currentPage = page;
   }
 
-  previousPage() {
+  previousPage(): void {
     if (this.currentPage > 0) this.currentPage--;
   }
 
-  nextPage() {
+  nextPage(): void {
     if (this.currentPage < this.totalPages - 1) this.currentPage++;
   }
+
+
 }
