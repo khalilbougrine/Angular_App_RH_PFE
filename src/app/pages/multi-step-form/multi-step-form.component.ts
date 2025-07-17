@@ -8,6 +8,13 @@ import { FormExperienceComponent } from '../../components/form-experience/form-e
 import { FormContactComponent } from '../../components/form-contact/form-contact.component';
 import { FormCertificationComponent } from '../../components/form-certification/form-certification.component';
 
+import {
+  trigger,
+  transition,
+  style,
+  animate
+} from '@angular/animations';
+
 @Component({
   selector: 'app-multi-step-form',
   standalone: true,
@@ -21,7 +28,15 @@ import { FormCertificationComponent } from '../../components/form-certification/
     FormCertificationComponent
   ],
   templateUrl: './multi-step-form.component.html',
-  styleUrls: ['./multi-step-form.component.scss']
+  styleUrls: ['./multi-step-form.component.scss'],
+  animations: [
+    trigger('stepAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class MultiStepFormComponent implements OnChanges {
   @Input() fiche: any;
@@ -58,6 +73,16 @@ export class MultiStepFormComponent implements OnChanges {
     description: string;
   }[] = [];
 
+  steps = [
+    { label: 'Information Personnelle', icon: '👤' },
+    { label: 'Etude', icon: '🎓' },
+    { label: 'Experience', icon: '💼' },
+    { label: 'Coordonnées', icon: '📇' },
+    { label: 'Award/Certification', icon: '🏅' }
+  ];
+
+  selectedStepIndex = 0;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fiche'] && this.fiche) {
       console.log("📥 Fiche IA reçue :", this.fiche);
@@ -73,7 +98,8 @@ export class MultiStepFormComponent implements OnChanges {
       // Études
       try {
         const educationArray = JSON.parse(this.fiche.education || '[]');
-        const findLine = (label: string) => educationArray.find((e: string) => e.toLowerCase().includes(label)) || '';
+        const findLine = (label: string) =>
+          educationArray.find((e: string) => e.toLowerCase().includes(label)) || '';
 
         this.educationData = {
           etablissement: educationArray[0] || '',
@@ -106,14 +132,17 @@ export class MultiStepFormComponent implements OnChanges {
       // Certifications
       try {
         const raw = JSON.parse(this.fiche.certifications || '[]');
-this.certificationData = this.parseCertifications(raw);
-console.log("✅ Données certification formatées :", this.certificationData);
-        
+        this.certificationData = this.parseCertifications(raw);
+        console.log("✅ Données certification formatées :", this.certificationData);
       } catch (e) {
         console.warn("❌ Erreur parsing certifications", e);
         this.certificationData = [];
       }
     }
+  }
+
+  selectStep(index: number) {
+    this.selectedStepIndex = index;
   }
 
   detectPays(address: string): string {
@@ -125,22 +154,10 @@ console.log("✅ Données certification formatées :", this.certificationData);
 
   detectVille(address: string): string {
     const villesConnues = ['Rabat', 'Casablanca', 'Paris', 'Marrakech', 'Tanger'];
-    const match = villesConnues.find(v => address?.toLowerCase().includes(v.toLowerCase()));
+    const match = villesConnues.find(v =>
+      address?.toLowerCase().includes(v.toLowerCase())
+    );
     return match || '';
-  }
-
-  steps = [
-    { label: 'Information Personnelle', icon: '👤' },
-    { label: 'Etude', icon: '🎓' },
-    { label: 'Experience', icon: '💼' },
-    { label: 'Coordonnées', icon: '📇' },
-    { label: 'Award/Certification', icon: '🏅' }
-  ];
-
-  selectedStepIndex = 0;
-
-  selectStep(index: number) {
-    this.selectedStepIndex = index;
   }
 
   parseCertifications(certifStrings: string[]): any[] {

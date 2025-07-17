@@ -46,7 +46,8 @@
     <p style="text-align: center; font-style: italic; margin-top: 24px;">Aucune fiche de poste disponible.</p>
   </ng-template>
 
-  <div class="pagination-container" *ngIf="totalPages > 1">
+  <div class="pagination-container" *ngIf="paginatedPostes.length > 0 && totalPages >= 1">
+
     <div class="pagination-buttons">
       <button (click)="previousPage()" [disabled]="currentPage === 0">Précédent</button>
       <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Suivant</button>

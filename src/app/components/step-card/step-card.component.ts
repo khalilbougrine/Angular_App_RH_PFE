@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-step-card',
@@ -9,5 +9,14 @@ import { Component, Input } from '@angular/core';
 export class StepCardComponent {
   @Input() label: string = '';
   @Input() icon: string = '';
-  @Input() selected: boolean = false;
+
+  @Input() set selected(value: boolean) {
+    this._selected = value;
+  }
+
+  get selected(): boolean {
+    return this._selected;
+  }
+
+  @HostBinding('class.selected') private _selected = false;
 }

@@ -8,6 +8,7 @@ import { MatchingResultTableComponent } from "../../components/matching-result-t
 import { PaginatedTableComponent } from "../../components/paginated-table/paginated-table.component";
 import { MultiStepFormComponent } from "../multi-step-form/multi-step-form.component";
 import { FichePosteService } from '../../services/fiche-poste.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-fiche-poste-list',
@@ -35,7 +36,8 @@ export class FichePosteListComponent implements OnInit {
   currentPage = 0;
   itemsPerPage = 20;
 
-  constructor(private fichePosteService: FichePosteService) {}
+constructor(private fichePosteService: FichePosteService, private cdr: ChangeDetectorRef) {}
+
 
   ngOnInit(): void {
     this.loadFiches();
@@ -45,6 +47,7 @@ export class FichePosteListComponent implements OnInit {
     this.fichePosteService.getAllFiches().subscribe({
       next: (data) => {
         this.fichePostes = data;
+        this.cdr.detectChanges();
         console.log("📂 Fiches de poste chargées depuis l'API :", data);
       },
       error: (err) => {

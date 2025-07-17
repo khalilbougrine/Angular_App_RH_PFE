@@ -1,4 +1,5 @@
 <div class="container">
+  <!-- Barre latérale : étapes du formulaire -->
   <div class="steps">
     <app-step-card
       *ngFor="let step of steps; let i = index"
@@ -9,27 +10,38 @@
     </app-step-card>
   </div>
 
-  <div class="form-content">
+  <!-- Contenu dynamique du formulaire -->
+  <div class="form-content" [@stepAnimation]>
+    
+    <!-- Étape 1 : Informations personnelles -->
     <app-form-personal-info
       *ngIf="selectedStepIndex === 0"
       [data]="personalInfo">
     </app-form-personal-info>
 
+    <!-- Étape 2 : Éducation -->
     <app-form-education
       *ngIf="selectedStepIndex === 1"
       [education]="educationData">
     </app-form-education>
 
+    <!-- Étape 3 : Expérience -->
     <app-form-experience
-  *ngIf="selectedStepIndex === 2"
-  [data]="experienceData">
-</app-form-experience>
+      *ngIf="selectedStepIndex === 2"
+      [data]="experienceData">
+    </app-form-experience>
 
-   <app-form-contact *ngIf="selectedStepIndex === 3" [data]="contactData"></app-form-contact>
-<app-form-certification
-  *ngIf="selectedStepIndex === 4"
-  [data]="certificationData">
-</app-form-certification>
+    <!-- Étape 4 : Coordonnées -->
+    <app-form-contact
+      *ngIf="selectedStepIndex === 3"
+      [data]="contactData">
+    </app-form-contact>
+
+    <!-- Étape 5 : Certifications -->
+    <app-form-certification
+      *ngIf="selectedStepIndex === 4"
+      [data]="certificationData">
+    </app-form-certification>
 
   </div>
 </div>

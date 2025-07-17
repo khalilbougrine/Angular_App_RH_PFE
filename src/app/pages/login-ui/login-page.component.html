@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+  <img src="assets/logo.png" alt="Omnishore Logo" class="logo" />
+
+  <div class="login-card" [class.loading]="loading">
+    <h2>Bienvenue dans votre espace RH </h2>
+    <p class="subtitle">Connectez-vous à votre espace RH</p>
+
+    <form (submit)="login()" novalidate>
+      <input type="text" placeholder="Nom d'utilisateur" [(ngModel)]="username" name="username" required />
+      <input type="password" placeholder="Mot de passe" [(ngModel)]="password" name="password" required />
+
+      <button type="submit" [disabled]="loading">
+        <span *ngIf="!loading">Se connecter</span>
+        <span *ngIf="loading" class="loader"></span>
+      </button>
+    </form>
+
+    <p *ngIf="error" class="error-message">{{ error }}</p>
+  </div>
+</div>

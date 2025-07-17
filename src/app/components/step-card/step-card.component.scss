@@ -1,21 +1,22 @@
-.card {
-  border: 2px solid #ccc;
-  padding: 12px 20px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  font-weight: 500;
+:host {
+  display: block;
+  padding: 14px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  background-color: #f0f0f0;
+  border-left: 5px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
 
-  &.selected {
-    border-color: #1d5fe6;
-    background-color: #e8f0ff;
-    font-weight: bold;
+  &:hover {
+    background-color: #e6e6e6;
   }
 
-  .icon {
-    font-size: 18px;
+  &.selected {
+    background: linear-gradient(to right, #4a00e0, #8e2de2);
+    color: white;
+    border-left-color: #fff;
+    font-weight: bold;
+    transform: scale(1.03);
   }
 }
